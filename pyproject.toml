@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "maintainer-inbox-triage-cli"
+version = "0.1.0"
+description = "Dry-run local triage for GitHub issue and pull request JSON payloads."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "OSS maintainers"}]
+dependencies = []
+
+[project.scripts]
+maintainer-inbox-triage = "maintainer_inbox_triage_cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["maintainer_inbox_triage_cli*"]
+
+[project.urls]
+Homepage = "https://github.com/mySebbe/maintainer-inbox-triage-cli"
+Repository = "https://github.com/mySebbe/maintainer-inbox-triage-cli"
+Issues = "https://github.com/mySebbe/maintainer-inbox-triage-cli/issues"
+Changelog = "https://github.com/mySebbe/maintainer-inbox-triage-cli/blob/main/CHANGELOG.md"
+
+[tool.setuptools.package-data]
+"maintainer_inbox_triage_cli" = ["py.typed"]

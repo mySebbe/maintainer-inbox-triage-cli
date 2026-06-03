@@ -1,0 +1,12 @@
+[
+  {
+    "number": 1,
+    "title": "Crash on startup",
+    "body": "The app crashes immediately after install."
+  },
+  {
+    "number": 2,
+    "title": "README typo",
+    "body": "Small spelling fix in the documentation."
+  }
+]
