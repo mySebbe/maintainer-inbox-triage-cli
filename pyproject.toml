@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "maintainer-inbox-triage-cli"
-version = "0.1.0"
+version = "0.1.1"
 description = "Dry-run local triage for GitHub issue and pull request JSON payloads."
 readme = "README.md"
 requires-python = ">=3.11"
