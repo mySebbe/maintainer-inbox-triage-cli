@@ -44,6 +44,21 @@ class MaintainerInboxTriageTests(unittest.TestCase):
 
         self.assertIn("question", result.labels)
 
+    def test_dependency_update_gets_dependencies_label(self):
+        payload = {"title": "Dependabot: update package-lock", "body": "Dependency refresh for npm lockfile."}
+
+        result = classify_payload(payload)
+
+        self.assertIn("dependencies", result.labels)
+
+    def test_ci_failure_gets_ci_and_bug_labels(self):
+        payload = {"title": "GitHub Actions test failure", "body": "The workflow fails on Python 3.12."}
+
+        result = classify_payload(payload)
+
+        self.assertIn("ci", result.labels)
+        self.assertIn("bug", result.labels)
+
     def test_cli_dry_run_json_for_multiple_payloads(self):
         with tempfile.TemporaryDirectory() as tmp:
             issue = Path(tmp) / "issue.json"
