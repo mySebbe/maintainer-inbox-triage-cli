@@ -2,6 +2,11 @@
 
 `maintainer-inbox-triage-cli` classifies local GitHub issue and pull request JSON payloads with inspectable heuristics. It never calls the GitHub API and defaults to dry-run output.
 
+## 0.1.1 Highlights
+
+- Local triage now labels CI failures and dependency-update issues separately.
+- Signals include GitHub Actions failures, Dependabot, lockfiles, and requirements updates.
+
 ## Labels
 
 The v0.1 classifier can emit:

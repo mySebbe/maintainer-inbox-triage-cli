@@ -26,6 +26,8 @@ class TriageResult:
 KEYWORDS = {
     "security": ["security", "vulnerability", "cve", "token", "secret", "xss", "injection", "auth bypass"],
     "bug": ["bug", "crash", "error", "exception", "traceback", "fails", "broken", "regression"],
+    "ci": ["ci", "workflow", "github actions", "action failed", "build failed", "test failure"],
+    "dependencies": ["dependabot", "dependency", "dependencies", "lockfile", "package-lock", "requirements.txt"],
     "docs": ["docs", "documentation", "readme", "guide", "typo", "spelling"],
     "question": ["question", "how do i", "help", "usage", "configure", "support"],
 }
@@ -43,7 +45,7 @@ def classify_payload(payload: dict[str, object]) -> TriageResult:
 
     labels: list[str] = []
     reasons: list[str] = []
-    for label in ["security", "bug", "docs", "question"]:
+    for label in ["security", "bug", "ci", "dependencies", "docs", "question"]:
         matched = _matching_keyword(text, KEYWORDS[label])
         if matched:
             labels.append(label)
