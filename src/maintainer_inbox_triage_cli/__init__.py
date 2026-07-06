@@ -19,6 +19,7 @@ class TriageResult:
     labels: list[str]
     reasons: list[str]
     item_type: str
+    priority: str
     dry_run: bool = True
     url: str | None = None
 
@@ -63,7 +64,15 @@ def classify_payload(payload: dict[str, object]) -> TriageResult:
         labels.append("needs-triage")
         reasons.append("no high-confidence local heuristic matched")
 
-    return TriageResult(title=title or "(untitled)", labels=_dedupe(labels), reasons=reasons, item_type=item_type, url=url)
+    labels = _dedupe(labels)
+    return TriageResult(
+        title=title or "(untitled)",
+        labels=labels,
+        reasons=reasons,
+        item_type=item_type,
+        priority=_priority_for(labels, text),
+        url=url,
+    )
 
 
 def format_text(results: Iterable[TriageResult]) -> str:
@@ -71,6 +80,7 @@ def format_text(results: Iterable[TriageResult]) -> str:
     for result in results:
         lines.append(f"{result.item_type}: {result.title}")
         lines.append(f"  labels: {', '.join(result.labels)}")
+        lines.append(f"  priority: {result.priority}")
         for reason in result.reasons:
             lines.append(f"  - {reason}")
         if result.url:
@@ -143,6 +153,16 @@ def _dedupe(labels: Iterable[str]) -> list[str]:
         if label not in result:
             result.append(label)
     return result
+
+
+def _priority_for(labels: list[str], text: str) -> str:
+    if "security" in labels or "auth bypass" in text or "vulnerability" in text:
+        return "p0"
+    if "ci" in labels or "bug" in labels:
+        return "p1"
+    if "dependencies" in labels:
+        return "p2"
+    return "p3"
 
 
 def _nested_string(payload: dict[str, object], key: str, nested_key: str) -> str:

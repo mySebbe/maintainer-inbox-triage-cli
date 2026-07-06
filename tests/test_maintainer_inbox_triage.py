@@ -20,6 +20,7 @@ class MaintainerInboxTriageTests(unittest.TestCase):
         result = classify_payload(payload)
 
         self.assertIn("security", result.labels)
+        self.assertEqual("p0", result.priority)
         self.assertIn("security keyword", " ".join(result.reasons))
 
     def test_bug_without_reproduction_gets_repro_needed(self):
@@ -29,6 +30,7 @@ class MaintainerInboxTriageTests(unittest.TestCase):
 
         self.assertIn("bug", result.labels)
         self.assertIn("repro-needed", result.labels)
+        self.assertEqual("p1", result.priority)
 
     def test_docs_typo_gets_docs_and_good_first(self):
         payload = {"title": "Typo in README", "body": "Small spelling fix in the documentation."}
@@ -36,6 +38,7 @@ class MaintainerInboxTriageTests(unittest.TestCase):
         result = classify_payload(payload)
 
         self.assertEqual(["docs", "good-first"], result.labels)
+        self.assertEqual("p3", result.priority)
 
     def test_question_payload_gets_question(self):
         payload = {"title": "How do I configure cache?", "body": "Question about local setup."}
@@ -50,6 +53,7 @@ class MaintainerInboxTriageTests(unittest.TestCase):
         result = classify_payload(payload)
 
         self.assertIn("dependencies", result.labels)
+        self.assertEqual("p2", result.priority)
 
     def test_ci_failure_gets_ci_and_bug_labels(self):
         payload = {"title": "GitHub Actions test failure", "body": "The workflow fails on Python 3.12."}
@@ -74,6 +78,7 @@ class MaintainerInboxTriageTests(unittest.TestCase):
             self.assertEqual(2, len(rows))
             self.assertIn("bug", rows[0]["labels"])
             self.assertIn("docs", rows[1]["labels"])
+            self.assertEqual("p1", rows[0]["priority"])
             self.assertTrue(rows[0]["dry_run"])
 
     def test_load_payloads_accepts_list_file(self):
