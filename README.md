@@ -26,9 +26,16 @@ The v0.1 classifier can emit:
 ```bash
 python -m maintainer_inbox_triage_cli issue.json pr.json
 python -m maintainer_inbox_triage_cli --json --output triage.json issue.json
+python -m maintainer_inbox_triage_cli --input-format jsonl --format jsonl issues.ndjson
 ```
 
-The output includes labels, priority, and plain-language reasons so maintainers can inspect why a label was suggested.
+The output includes labels, priority, and structured rule explanations so maintainers can inspect
+exactly why a label was suggested. Text output escapes terminal and bidirectional controls.
+
+Input is bounded to 10 MiB, 10,000 payloads, and JSON depth 100 by default. Use
+`--max-input-bytes` and `--max-payloads` to set stricter automation limits. JSON and JSONL reject
+duplicate keys and malformed records without echoing sensitive input. `--output` writes atomically
+and refuses symlink targets or replacement of an input file.
 
 ## Development
 
