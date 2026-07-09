@@ -6,7 +6,11 @@ The format is based on Keep a Changelog, and this project uses semantic versioni
 
 ## [Unreleased]
 
-- No unreleased changes yet.
+- Added deterministic structured rule explanations to text, JSON, and JSONL output.
+- Added bounded JSON/JSONL ingestion with byte, payload-count, depth, duplicate-key, and UTF-8
+  validation.
+- Escaped terminal and bidirectional controls in human-readable output.
+- Added atomic output and refusal of symlink targets or input-file replacement.
 
 ## [0.1.2] - 2026-07-06
 
